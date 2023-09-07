@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "H+O3g46GEisFulr1TkLAGzC7UG2M9qfwhx++Kf1Wy720uu4qaZ2P7Oo05G95aM2fbBKFucciJVlz5B05I36t9A==",
+  "success": true,
+  "projectFilePath": "C:\\MY PROJECTS\\QuestHub\\backend\\QuestHub\\QuestHub.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Sameera\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Sameera\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Sameera\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\Sameera\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\Sameera\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\Sameera\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}
