@@ -4,6 +4,7 @@ import './App.css';
 
 function App() {
   const unused = 'something';
+  debugger;
   return (
     <div className="App">
       <header className="App-header">
