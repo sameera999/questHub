@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using QuestHub.Data.Models;
+using System.Reflection.Metadata.Ecma335;
 
 namespace QuestHub.Data
 {
@@ -11,9 +12,27 @@ namespace QuestHub.Data
         {
             _connectionString = configuration["ConnectionStrings:DefaultConnection"];
         }
+
+        public void DeleteQuestion(int questionId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                connection.Execute(@"EXEC dbo.Question_Delete @QuestionId = @QuestionId", new { QuestionId = questionId });
+            }
+        }
+
         public AnswerGetResponse GetAnswer(int answerId)
         {
-            throw new NotImplementedException();
+            using (var connection = new
+            SqlConnection(_connectionString))
+            {
+                connection.Open();
+                return connection.QueryFirstOrDefault<AnswerGetResponse>(
+                    @"EXEC dbo.Answer_Get_ByAnswerId @AnswerId = @AnswerId",
+                    new { AnswerId = answerId }
+                );
+            }
         }
 
         public QuestionGetSingleResponse GetQuestion(int questionId)
@@ -66,6 +85,46 @@ namespace QuestHub.Data
                 return connection.Query<QuestionGetManyResponse>(
                   "EXEC dbo.Question_GetUnanswered"
                 );
+            }
+        }
+
+        public AnswerGetResponse PostAnswer(AnswerPostRequest answer)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                return connection.QueryFirst<AnswerGetResponse>(@"EXEC dbo.Answer_Post 
+                    @QuestionId = @QuestionId, @Content = @Content, 
+                    @UserId = @UserId, @UserName = @UserName,
+                    @Created = @Created", answer);
+            }
+        }
+
+        public QuestionGetSingleResponse PostQuestion(QuestionPostRequest question)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var questionId = connection.QueryFirst<int>(@"EXEC dbo.Question_Post  @Title = @Title, @Content = @Content, 
+                    @UserId = @UserId, @UserName = @UserName, 
+                    @Created = @Created",question);
+
+                return GetQuestion(questionId);
+            }           
+        }
+
+        public QuestionGetSingleResponse PutQuestion(int questionId, QuestionPutRequest question)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                connection.Execute(@"EXEC dbo.Question_Put @QuestionId = @QuestionId, @Title = @Title, @Content = @Content", new
+                {
+                    QuestionId = questionId,
+                    question.Title,
+                    question.Content
+                });
+
+                return GetQuestion(questionId);
             }
         }
 
