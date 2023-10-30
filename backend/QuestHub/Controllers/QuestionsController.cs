@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using QuestHub.Data;
 using QuestHub.Data.Models;
 
@@ -16,11 +17,18 @@ namespace QuestHub.Controllers
             _dataRepository = dataRepository;
         }
 
+       
         [HttpGet]
-        public IEnumerable<QuestionGetManyResponse> GetQuestions()
+        public IEnumerable<QuestionGetManyResponse> GetQuestions(string search)
         {
-            var questions = _dataRepository.GetQuestions();
-            return questions;
+            if (string.IsNullOrEmpty(search))
+            {
+                return _dataRepository.GetQuestionsBySearch(search);
+            }
+            else
+            {
+                return _dataRepository.GetQuestionsBySearch(search);
+            }
         }
     }
 }

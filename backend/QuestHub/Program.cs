@@ -44,6 +44,7 @@ else
     app.UseHttpsRedirection();
 }
 
+// enable routings for api
 app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
