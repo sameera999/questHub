@@ -1,4 +1,5 @@
 using DbUp;
+using QuestHub.Data;
 using System.Net.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //create a databae if it doesnt exisits
@@ -25,6 +27,9 @@ var upgrader = DeployChanges.To
         upgrader.PerformUpgrade();
     }
 
+//add data reporsiorie as dependency injections
+builder.Services.AddScoped<IDataRepository, DataRepository>();
+
 
 var app = builder.Build();
 
@@ -39,29 +44,11 @@ else
     app.UseHttpsRedirection();
 }
 
-
-var summaries = new[]
+app.UseRouting();
+app.UseEndpoints(endpoints =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    endpoints.MapControllers();
+});
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
 
 app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
