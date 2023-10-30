@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using QuestHub.Data;
 using QuestHub.Data.Models;
@@ -75,6 +76,19 @@ namespace QuestHub.Controllers
 
             var savedQuestion = _dataRepository.PutQuestion(questionId, questionPutRequest);
             return savedQuestion;
+        }
+
+
+        [HttpDelete("{questionId}")]
+        public ActionResult DeleteQuestion(int questionId) 
+        { 
+            var question = _dataRepository.GetQuestion(questionId);
+            if (question == null)
+            {
+                return NotFound();
+            }
+            _dataRepository.DeleteQuestion(questionId);
+            return NoContent();
         }
     }
 }
