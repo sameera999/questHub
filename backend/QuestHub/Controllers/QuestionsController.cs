@@ -55,7 +55,14 @@ namespace QuestHub.Controllers
         [HttpPost]
         public ActionResult<QuestionGetSingleResponse> PostQuestion(QuestionPostRequest question)
         {
-            var savedQuestion = _dataRepository.PostQuestion(question);
+            var savedQuestion = _dataRepository.PostQuestion(new QuestionPostFullRequest
+            {
+                Title = question.Title,
+                Content = question.Content,
+                UserId = "1",
+                UserName = "bob.test@test.com",
+                Created= DateTime.UtcNow
+            });
             return CreatedAtAction(nameof(GetQuestion)
                 , new {questionId = savedQuestion.QuestionId}
                 , savedQuestion);
@@ -95,7 +102,7 @@ namespace QuestHub.Controllers
         [HttpPost("answer")]
         public ActionResult<AnswerGetResponse> PostAnswer(AnswerPostRequest answerPostRequest)
         {
-            var quesionExists = _dataRepository.QuestionExists(answerPostRequest.QuestionId);
+            var quesionExists = _dataRepository.QuestionExists(answerPostRequest.QuestionId.Value);
             if (!quesionExists)
             {
                 return NotFound();
