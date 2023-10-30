@@ -71,7 +71,15 @@ namespace QuestHub.Data
 
         public bool QuestionExists(int questionId)
         {
-            throw new NotImplementedException();
+            using (var connection = new
+            SqlConnection(_connectionString))
+            {
+                connection.Open();
+                return connection.QueryFirst<bool>(
+                @"EXEC dbo.Question_Exists @QuestionId = @QuestionId",
+                new { QuestionId = questionId }
+                );
+            }
         }
     }
 }
