@@ -4,6 +4,7 @@ using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using QuestHub.Data;
 using QuestHub.Data.Models;
+using System.Diagnostics.Contracts;
 
 namespace QuestHub.Controllers
 {
@@ -90,5 +91,19 @@ namespace QuestHub.Controllers
             _dataRepository.DeleteQuestion(questionId);
             return NoContent();
         }
+
+        [HttpPost("answer")]
+        public ActionResult<AnswerGetResponse> PostAnswer(AnswerPostRequest answerPostRequest)
+        {
+            var quesionExists = _dataRepository.QuestionExists(answerPostRequest.QuestionId);
+            if (!quesionExists)
+            {
+                return NotFound();
+            }
+
+            var savedAnswer = _dataRepository.PostAnswer(answerPostRequest);
+            return savedAnswer;
+        }
+        
     }
 }
