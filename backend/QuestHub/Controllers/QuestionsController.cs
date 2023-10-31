@@ -21,12 +21,20 @@ namespace QuestHub.Controllers
 
        
         [HttpGet]
-        public IEnumerable<QuestionGetManyResponse> GetQuestions(string? search)
+        public IEnumerable<QuestionGetManyResponse> GetQuestions(string? search, bool includeAnswers)
         {
             //extend search questions
             if (string.IsNullOrEmpty(search))
             {
-                return _dataRepository.GetQuestions();
+                if (includeAnswers)
+                {
+                    return _dataRepository.GetQuestionsWithAnswers();
+                }
+                else
+                {
+                    return _dataRepository.GetQuestions();
+                }
+                
             }
             else
             {
@@ -108,7 +116,14 @@ namespace QuestHub.Controllers
                 return NotFound();
             }
 
-            var savedAnswer = _dataRepository.PostAnswer(answerPostRequest);
+            var savedAnswer = _dataRepository.PostAnswer(new AnswerPostFullRequest
+            {
+                QuestionId = answerPostRequest.QuestionId.Value,
+                Content = answerPostRequest.Content,
+                UserId = "1",
+                UserName = "bob.test@test.com",
+                Created = DateTime.UtcNow
+            });
             return savedAnswer;
         }
         
