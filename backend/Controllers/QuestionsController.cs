@@ -21,7 +21,7 @@ namespace QuestHub.Controllers
 
        
         [HttpGet]
-        public IEnumerable<QuestionGetManyResponse> GetQuestions(string? search, bool includeAnswers, int page = 1,int pageSize = 20)
+        public IEnumerable<QuestionGetManyResponse> GetQuestions(string? search, bool includeAnswers, int page = 1,int pageSize = 10)
         {
             //extend search questions
             if (string.IsNullOrEmpty(search))

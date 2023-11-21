@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\MY PROJECTS\\QuestHub\\backend\\QuestHub\\QuestHub.csproj": {}
+    "C:\\MY PROJECTS\\QuestHub\\backend\\QuestHub.csproj": {}
   },
   "projects": {
-    "C:\\MY PROJECTS\\QuestHub\\backend\\QuestHub\\QuestHub.csproj": {
+    "C:\\MY PROJECTS\\QuestHub\\backend\\QuestHub.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MY PROJECTS\\QuestHub\\backend\\QuestHub\\QuestHub.csproj",
+        "projectUniqueName": "C:\\MY PROJECTS\\QuestHub\\backend\\QuestHub.csproj",
         "projectName": "QuestHub",
-        "projectPath": "C:\\MY PROJECTS\\QuestHub\\backend\\QuestHub\\QuestHub.csproj",
+        "projectPath": "C:\\MY PROJECTS\\QuestHub\\backend\\QuestHub.csproj",
         "packagesPath": "C:\\Users\\Sameera\\.nuget\\packages\\",
-        "outputPath": "C:\\MY PROJECTS\\QuestHub\\backend\\QuestHub\\obj\\",
+        "outputPath": "C:\\MY PROJECTS\\QuestHub\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Sameera\\AppData\\Roaming\\NuGet\\NuGet.Config",

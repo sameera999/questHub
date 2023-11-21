@@ -1,0 +1,267 @@
+{
+	"info": {
+		"_postman_id": "14a34236-2ef2-4933-92a0-3cfd7ee845f8",
+		"name": "QuestHubApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11445625"
+	},
+	"item": [
+		{
+			"name": "Questions",
+			"item": [
+				{
+					"name": "GET All Questions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{questHubUrl}}/api/questions",
+							"host": [
+								"{{questHubUrl}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET All Questions With Answers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{questHubUrl}}/api/questions?includeAnswers=true",
+							"host": [
+								"{{questHubUrl}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "includeAnswers",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Unanswered Questions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{questHubUrl}}/api/questions/unanswered",
+							"host": [
+								"{{questHubUrl}}"
+							],
+							"path": [
+								"api",
+								"questions",
+								"unanswered"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET All Questions By Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{questHubUrl}}/api/questions?search=why",
+							"host": [
+								"{{questHubUrl}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "why"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET All Questions By search and paging",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{questHubUrl}}/api/questions?search=con&page=1&pageSize=3",
+							"host": [
+								"{{questHubUrl}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "con"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Question By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{questHubUrl}}/api/questions/3",
+							"host": [
+								"{{questHubUrl}}"
+							],
+							"path": [
+								"api",
+								"questions",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Question",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Accessing serivice content in a srervie class\",\r\n    \"content\": \"How do u access HttpContext ?\"   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{questHubUrl}}/api/questions",
+							"host": [
+								"{{questHubUrl}}"
+							],
+							"path": [
+								"api",
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Question",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"title\":\"Which state management tool should I use in .NET backend project ?\",\r\n    \"content\": \"\"    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{questHubUrl}}/api/questions/2",
+							"host": [
+								"{{questHubUrl}}"
+							],
+							"path": [
+								"api",
+								"questions",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Question",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"title\":\"Which state management tool should I use in .NET backend project ?\",\r\n    \"content\": \"\"    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{questHubUrl}}/api/questions/7",
+							"host": [
+								"{{questHubUrl}}"
+							],
+							"path": [
+								"api",
+								"questions",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Answers",
+			"item": [
+				{
+					"name": "POST Answer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"QuestionId\":\"3\",    \r\n    \"Content\": \"For adaptability\"    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{questHubUrl}}/api/questions/answer",
+							"host": [
+								"{{questHubUrl}}"
+							],
+							"path": [
+								"api",
+								"questions",
+								"answer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
