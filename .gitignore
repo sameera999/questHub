@@ -1,3 +1,6 @@
 backend/QuestHub/bin/*
 backend/QuestHub/obj/*
 backend/QuestHub/.vs/*
+backend/bin/*
+backend/obj/*
+backend/.vs/*

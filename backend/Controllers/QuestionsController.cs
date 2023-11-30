@@ -21,31 +21,31 @@ namespace QuestHub.Controllers
 
        
         [HttpGet]
-        public IEnumerable<QuestionGetManyResponse> GetQuestions(string? search, bool includeAnswers, int page = 1,int pageSize = 10)
+        public async Task<IEnumerable<QuestionGetManyResponse>> GetQuestions(string? search, bool includeAnswers, int page = 1,int pageSize = 10)
         {
             //extend search questions
             if (string.IsNullOrEmpty(search))
             {
                 if (includeAnswers)
                 {
-                    return _dataRepository.GetQuestionsWithAnswers();
+                    return await _dataRepository.GetQuestionsWithAnswers();
                 }
                 else
                 {
-                    return _dataRepository.GetQuestions();
+                    return await _dataRepository.GetQuestions();
                 }
                 
             }
             else
             {
-                return _dataRepository.GetQuestionsBySearchWithPaging(search, page, pageSize);
+                return await _dataRepository.GetQuestionsBySearchWithPaging(search, page, pageSize);
             }
         }
 
         [HttpGet("unanswered")]
-        public IEnumerable<QuestionGetManyResponse> GetUnansweredQuestions()
+        public async Task<IEnumerable<QuestionGetManyResponse>> GetUnansweredQuestions()
         {
-            return _dataRepository.GetUnansweredQuestions();
+            return await _dataRepository.GetUnansweredQuestions();
         }
 
         [HttpGet("{questionId}")]

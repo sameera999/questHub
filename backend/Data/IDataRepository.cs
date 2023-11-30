@@ -4,10 +4,10 @@ namespace QuestHub.Data
 {
     public interface IDataRepository
     {
-        IEnumerable<QuestionGetManyResponse> GetQuestions();
-        IEnumerable<QuestionGetManyResponse> GetQuestionsWithAnswers();
+        Task<IEnumerable<QuestionGetManyResponse>> GetQuestions();
+        Task<IEnumerable<QuestionGetManyResponse>> GetQuestionsWithAnswers();
         IEnumerable<QuestionGetManyResponse> GetQuestionsBySearch(string search);
-        IEnumerable<QuestionGetManyResponse> GetQuestionsBySearchWithPaging(string search, int pageNumber, int pageSize);
+        Task<IEnumerable<QuestionGetManyResponse>> GetQuestionsBySearchWithPaging(string search, int pageNumber, int pageSize);
         Task<IEnumerable<QuestionGetManyResponse>> GetUnansweredQuestions();
         QuestionGetSingleResponse GetQuestion(int questionId);
         bool QuestionExists(int questionId);

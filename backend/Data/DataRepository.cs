@@ -55,12 +55,12 @@ namespace QuestHub.Data
             }
         }
 
-        public IEnumerable<QuestionGetManyResponse> GetQuestions()
+        public async Task<IEnumerable<QuestionGetManyResponse>> GetQuestions()
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
-                return connection.Query<QuestionGetManyResponse>(@"EXEC dbo.Question_GetMany");
+                await connection.OpenAsync();
+                return await connection.QueryAsync<QuestionGetManyResponse>(@"EXEC dbo.Question_GetMany");
             };
         }
 
@@ -75,11 +75,11 @@ namespace QuestHub.Data
             }
         }
 
-        public IEnumerable<QuestionGetManyResponse> GetQuestionsBySearchWithPaging(string search, int pageNumber, int pageSize)
+        public async Task<IEnumerable<QuestionGetManyResponse>> GetQuestionsBySearchWithPaging(string search, int pageNumber, int pageSize)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 var parameteres = new
                 {
                     Search = search,
@@ -87,52 +87,50 @@ namespace QuestHub.Data
                     PageSize = pageSize
                 };
 
-                return connection.Query<QuestionGetManyResponse>(@"EXEC dbo.Question_GetMany_BySearch_WithPaging
+                return await connection.QueryAsync<QuestionGetManyResponse>(@"EXEC dbo.Question_GetMany_BySearch_WithPaging
                         @Search = @Search,
                         @PageNumber = @PageNumber,
                         @PageSize = @PageSize", parameteres);
             }
         }
 
-        public IEnumerable<QuestionGetManyResponse> GetQuestionsWithAnswers()
-        {
-            using (var connection = new
-            SqlConnection(_connectionString))
-            {
-                connection.Open();
-                var questionDictionary =
-                new Dictionary<int, QuestionGetManyResponse>();
-                return connection
-                .Query<QuestionGetManyResponse,AnswerGetResponse, QuestionGetManyResponse>(
-                "EXEC dbo.Question_GetMany_WithAnswers",
-                map: (q, a) =>
-                {
-                    QuestionGetManyResponse question;
-                    if (!questionDictionary.TryGetValue
-    (q.QuestionId, out question))
-                    {
-                        question = q;
-                        question.Answers =
-        new List<AnswerGetResponse>();
-                        questionDictionary.Add(question.
-        QuestionId, question);
-                    }
-                    question.Answers.Add(a);
-                    return question;
-                },
-                splitOn: "QuestionId"
-                )
-                .Distinct()
-                .ToList();
-            }
-        }
-
-        public IEnumerable<QuestionGetManyResponse> GetUnansweredQuestions()
+        public async Task<IEnumerable<QuestionGetManyResponse>> GetQuestionsWithAnswers()
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
-                return connection.Query<QuestionGetManyResponse>(
+                await connection.OpenAsync();
+                var questionDictionary = new Dictionary<int, QuestionGetManyResponse>();
+
+                var queryResults = await connection
+                    .QueryAsync<QuestionGetManyResponse, AnswerGetResponse, QuestionGetManyResponse>(
+                        "EXEC dbo.Question_GetMany_WithAnswers",
+                        map: (q, a) =>
+                        {
+                            QuestionGetManyResponse question;
+                            if (!questionDictionary.TryGetValue(q.QuestionId, out question))
+                            {
+                                question = q;
+                                question.Answers = new List<AnswerGetResponse>();
+                                questionDictionary.Add(question.QuestionId, question);
+                            }
+
+                            question.Answers.Add(a);
+                            return question;
+                        },
+                        splitOn: "QuestionId"
+                    );
+
+                return queryResults.Distinct().ToList();
+            }
+        }
+
+
+        public async Task<IEnumerable<QuestionGetManyResponse>> GetUnansweredQuestions()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                return await connection.QueryAsync<QuestionGetManyResponse>(
                   "EXEC dbo.Question_GetUnanswered"
                 );
             }
