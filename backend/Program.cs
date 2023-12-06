@@ -1,4 +1,5 @@
 using DbUp;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using QuestHub.Data;
 using System.Net.WebSockets;
 
@@ -9,6 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+// Configure JWT Bearer Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.Authority = builder.Configuration["Auth0:Authority"];
+    options.Audience = builder.Configuration["Auth0:Audience"];
+});
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //create a databae if it doesnt exisits
@@ -46,6 +59,8 @@ else
 
 // enable routings for api
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

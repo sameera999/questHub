@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
@@ -8,6 +9,7 @@ using System.Diagnostics.Contracts;
 
 namespace QuestHub.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class QuestionsController : ControllerBase
@@ -19,7 +21,7 @@ namespace QuestHub.Controllers
             _dataRepository = dataRepository;
         }
 
-       
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<QuestionGetManyResponse>> GetQuestions(string? search, bool includeAnswers, int page = 1,int pageSize = 10)
         {
@@ -42,12 +44,14 @@ namespace QuestHub.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("unanswered")]
         public async Task<IEnumerable<QuestionGetManyResponse>> GetUnansweredQuestions()
         {
             return await _dataRepository.GetUnansweredQuestions();
         }
 
+        [AllowAnonymous]
         [HttpGet("{questionId}")]
         public ActionResult<QuestionGetSingleResponse> GetQuestion(int questionId)
         {
@@ -60,6 +64,7 @@ namespace QuestHub.Controllers
             return question;
         }
 
+       
         [HttpPost]
         public ActionResult<QuestionGetSingleResponse> PostQuestion(QuestionPostRequest question)
         {
@@ -76,6 +81,7 @@ namespace QuestHub.Controllers
                 , savedQuestion);
         }
 
+       
         [HttpPut("{questionId}")]
         public ActionResult<QuestionGetSingleResponse> PutQuestion(int questionId, QuestionPutRequest questionPutRequest)
         {
@@ -95,6 +101,7 @@ namespace QuestHub.Controllers
         }
 
 
+       
         [HttpDelete("{questionId}")]
         public ActionResult DeleteQuestion(int questionId) 
         { 
@@ -107,6 +114,7 @@ namespace QuestHub.Controllers
             return NoContent();
         }
 
+       
         [HttpPost("answer")]
         public ActionResult<AnswerGetResponse> PostAnswer(AnswerPostRequest answerPostRequest)
         {
