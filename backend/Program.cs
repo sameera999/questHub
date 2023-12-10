@@ -1,6 +1,9 @@
 using DbUp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using QuestHub.Authorization;
 using QuestHub.Data;
+using System.Diagnostics;
 using System.Net.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +25,12 @@ builder.Services.AddAuthentication(options =>
     options.Authority = builder.Configuration["Auth0:Authority"];
     options.Audience = builder.Configuration["Auth0:Audience"];
 });
+builder.Services.AddHttpClient();
+builder.Services.AddAuthorization(options =>
+    options.AddPolicy("MustBeQuestionAuthor", policy
+     =>
+      policy.Requirements
+        .Add(new MustBeQuestionAuthorRequirement())));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //create a databae if it doesnt exisits
@@ -42,7 +51,8 @@ var upgrader = DeployChanges.To
 
 //add data reporsiorie as dependency injections
 builder.Services.AddScoped<IDataRepository, DataRepository>();
-
+builder.Services.AddScoped<IAuthorizationHandler, MustBeQuestionAuthorHandler>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
