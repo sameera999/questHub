@@ -32,6 +32,18 @@ namespace QuestHub.Authorization
             int questionIdAsInt = Convert.ToInt32(questionId);
             var userId = context.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var question = await _dataRepository.GetQuestion(questionIdAsInt);
+            if (question == null)
+            {
+                // let it through so the controller can return a 404
+                context.Succeed(requirement);
+                return;
+            }
+            if (question.UserId != userId)
+            {
+                context.Fail();
+                return;
+            }
+            context.Succeed(requirement);
         }
     }
 }

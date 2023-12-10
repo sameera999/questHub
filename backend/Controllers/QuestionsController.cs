@@ -81,7 +81,7 @@ namespace QuestHub.Controllers
                 , savedQuestion);
         }
 
-       
+        [Authorize(Policy = "MustBeQuestionAuthor")]
         [HttpPut("{questionId}")]
         public async Task<ActionResult<QuestionGetSingleResponse>> PutQuestion(int questionId, QuestionPutRequest questionPutRequest)
         {
@@ -101,7 +101,7 @@ namespace QuestHub.Controllers
         }
 
 
-       
+        [Authorize(Policy = "MustBeQuestionAuthor")]
         [HttpDelete("{questionId}")]
         public ActionResult DeleteQuestion(int questionId) 
         { 
