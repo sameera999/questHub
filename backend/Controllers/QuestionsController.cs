@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using QuestHub.Data;
 using QuestHub.Data.Models;
 using System.Diagnostics.Contracts;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace QuestHub.Controllers
 {
@@ -15,10 +17,18 @@ namespace QuestHub.Controllers
     public class QuestionsController : ControllerBase
     {
         private readonly IDataRepository _dataRepository;
+        private readonly IHttpClientFactory _clientFactory;
+        private readonly IConfiguration configuration;
+        private readonly string _auth0UserInfo;
 
-        public QuestionsController(IDataRepository dataRepository)
+        public QuestionsController(IDataRepository dataRepository, 
+            IHttpClientFactory clientFactory,
+            IConfiguration configuration)
         {
             _dataRepository = dataRepository;
+            _clientFactory = clientFactory;
+            _auth0UserInfo = $"{configuration["Auth0:Authority"]}userinfo";
+           
         }
 
         [AllowAnonymous]
@@ -72,8 +82,8 @@ namespace QuestHub.Controllers
             {
                 Title = question.Title,
                 Content = question.Content,
-                UserId = "1",
-                UserName = "bob.test@test.com",
+                UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value,
+                UserName = await GetUserName(),
                 Created= DateTime.UtcNow
             });
             return CreatedAtAction(nameof(GetQuestion)
@@ -116,7 +126,7 @@ namespace QuestHub.Controllers
 
        
         [HttpPost("answer")]
-        public ActionResult<AnswerGetResponse> PostAnswer(AnswerPostRequest answerPostRequest)
+        public async ActionResult<AnswerGetResponse> PostAnswer(AnswerPostRequest answerPostRequest)
         {
             var quesionExists = _dataRepository.QuestionExists(answerPostRequest.QuestionId.Value);
             if (!quesionExists)
@@ -128,12 +138,45 @@ namespace QuestHub.Controllers
             {
                 QuestionId = answerPostRequest.QuestionId.Value,
                 Content = answerPostRequest.Content,
-                UserId = "1",
-                UserName = "bob.test@test.com",
+                UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value,
+                UserName = await GetUserName(),
                 Created = DateTime.UtcNow
             });
             return savedAnswer;
         }
-        
+
+        /// <summary>
+        /// Get User name directly form Auth0
+        /// </summary>
+        /// <returns></returns>
+        private async Task<string> GetUserName()
+        {
+            var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                _auth0UserInfo);
+            request.Headers.Add(
+                "Authorization",
+                Request.Headers["Authorization"].First());
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonContent =
+                await response.Content.ReadAsStringAsync();
+                var user =
+                JsonSerializer.Deserialize<User>(
+                jsonContent,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+                return user.Name;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
     }
 }
