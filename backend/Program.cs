@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Net.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -53,6 +54,14 @@ var upgrader = DeployChanges.To
 builder.Services.AddScoped<IDataRepository, DataRepository>();
 builder.Services.AddScoped<IAuthorizationHandler, MustBeQuestionAuthorHandler>();
 builder.Services.AddHttpContextAccessor();
+//The CORS policy that allows origins allowed in appsseeting.json to 
+// acess the REST API
+builder.Services.AddCors(options =>
+    options.AddPolicy("CorsPolicy", builder =>
+        builder
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .WithOrigins(configuration["Frontend"])));
 
 var app = builder.Build();
 
@@ -69,6 +78,7 @@ else
 
 // enable routings for api
 app.UseRouting();
+app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>

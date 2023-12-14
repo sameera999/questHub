@@ -126,7 +126,7 @@ namespace QuestHub.Controllers
 
        
         [HttpPost("answer")]
-        public async ActionResult<AnswerGetResponse> PostAnswer(AnswerPostRequest answerPostRequest)
+        public async Task<ActionResult<AnswerGetResponse>> PostAnswer(AnswerPostRequest answerPostRequest)
         {
             var quesionExists = _dataRepository.QuestionExists(answerPostRequest.QuestionId.Value);
             if (!quesionExists)
