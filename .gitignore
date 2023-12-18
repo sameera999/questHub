@@ -4,3 +4,5 @@ backend/QuestHub/.vs/*
 backend/bin/*
 backend/obj/*
 backend/.vs/*
+QuestHub.Tests/bin/
+QuestHub.Tests/obj/
