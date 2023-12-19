@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { SearchPage } from './SearchPage';
 import { AskPage } from './AskPage';
 import { SignInPage } from './SignInPage';
+import { NotFoundPage } from './NotFoundPage';
 
 function App() {
   const unused = 'something';
@@ -28,6 +29,7 @@ function App() {
           <Route path="search" element={<SearchPage />} />
           <Route path="ask" element={<AskPage />} />
           <Route path="signin" element={<SignInPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </BrowserRouter>
