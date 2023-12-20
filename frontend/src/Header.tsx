@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { fontFamily, fontSize, gray1, gray2, gray5 } from './Styles';
 import React from 'react';
 import { UserIcon } from './Icons';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 type FormData = {
@@ -11,16 +11,13 @@ type FormData = {
 };
 
 export const Header = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const criteria = searchParams.get('criteria') || '';
-  const { register } = useForm<FormData>();
+  const { register, handleSubmit } = useForm<FormData>();
 
-  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setSearch(e.currentTarget.value);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const submitForm = ({ search }: FormData) => {
+    navigate(`search?criteria=${search}`);
   };
 
   return (
@@ -51,7 +48,7 @@ export const Header = () => {
         QuestHub
       </Link>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(submitForm)}>
         <input
           {...register('search')}
           type="text"
