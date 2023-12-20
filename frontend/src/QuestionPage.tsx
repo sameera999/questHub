@@ -2,6 +2,7 @@
 import { css } from '@emotion/react';
 import {
   FieldContainer,
+  FieldError,
   FieldLabel,
   FieldTextArea,
   Fieldset,
@@ -22,7 +23,12 @@ type FormData = {
 };
 
 export const QuestionPage = () => {
-  const { register } = useForm<FormData>();
+  const {
+    register,
+    formState: { errors },
+  } = useForm<FormData>({
+    mode: 'onBlur',
+  });
   const { questionId } = useParams();
   const [question, setQuestion] = React.useState<QuestionData | null>(null);
 
@@ -86,7 +92,21 @@ export const QuestionPage = () => {
               <Fieldset>
                 <FieldContainer>
                   <FieldLabel htmlFor="content">Your Answer</FieldLabel>
-                  <FieldTextArea id="content" {...register('content')} />
+                  <FieldTextArea
+                    id="content"
+                    {...register('content', {
+                      required: true,
+                      minLength: 50,
+                    })}
+                  />
+                  {errors.content && errors.content.type === 'required' && (
+                    <FieldError>You must enter the answer</FieldError>
+                  )}
+                  {errors.content && errors.content.type === 'minLength' && (
+                    <FieldError>
+                      The answer must be at least 50 characters
+                    </FieldError>
+                  )}
                 </FieldContainer>
                 <FormButtonContainer>
                   <PrimaryButton type="submit">
