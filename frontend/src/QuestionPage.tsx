@@ -18,12 +18,18 @@ import { useParams } from 'react-router-dom';
 import { QuestionData, getQuestion, postAnswer } from './QuestionsData';
 import { AnswerList } from './AnswerList';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from './store';
+import { gettingQuestion, gotQuestion } from './slices/questionsSlice';
 
 type FormData = {
   content: string;
 };
 
 export const QuestionPage = () => {
+  const dispatch = useDispatch();
+  const question = useSelector((state: RootState) => state.questions.viewing);
   const [successfullySubmitted, setSuccessfullySubmitted] =
     React.useState(false);
   const {
@@ -34,12 +40,13 @@ export const QuestionPage = () => {
     mode: 'onBlur',
   });
   const { questionId } = useParams();
-  const [question, setQuestion] = React.useState<QuestionData | null>(null);
 
   React.useEffect(() => {
+    dispatch(gettingQuestion());
     const doGetQuestion = async (questionId: number) => {
+      dispatch(gettingQuestion());
       const foundQuestion = await getQuestion(questionId);
-      setQuestion(foundQuestion);
+      dispatch(gotQuestion(foundQuestion));
     };
     if (questionId) {
       doGetQuestion(Number(questionId));

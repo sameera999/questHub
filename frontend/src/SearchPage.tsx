@@ -5,16 +5,23 @@ import { QuestionList } from './QuestionList';
 import { searchQuestions, QuestionData } from './QuestionsData';
 import React from 'react';
 import { Page } from './Page';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from './store';
+import { searchedQuestions, searchingQuestions } from './slices/questionsSlice';
 
 export const SearchPage = () => {
+  const dispatch = useDispatch();
+  const questions = useSelector((state: RootState) => state.questions.searched);
   const [searchParams] = useSearchParams();
-  const [questions, setQuestions] = React.useState<QuestionData[]>([]);
+
   const search = searchParams.get('criteria') || '';
 
   React.useEffect(() => {
     const doSearch = async (criteria: string) => {
+      dispatch(searchingQuestions());
       const foundResults = await searchQuestions(criteria);
-      setQuestions(foundResults);
+      dispatch(searchedQuestions(foundResults));
     };
     doSearch(search);
   }, [search]);
