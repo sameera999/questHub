@@ -7,17 +7,29 @@ import { Page } from './Page';
 import { PageTitle } from './PageTitle';
 import { PrimaryButton } from './Styles';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { RootState } from './store';
+import { useSelector } from 'react-redux';
+import {
+  gettingUnansweredQuestions,
+  gotUnansweredQuestions,
+} from './slices/questionsSlice';
 
 export const HomePage = () => {
   const navigate = useNavigate();
-  const [questions, setQuestions] = React.useState<QuestionData[]>([]);
-  const [questionsLoading, setQuestionsLoading] = React.useState(true);
+  const dispatch = useDispatch();
+  const questions = useSelector(
+    (state: RootState) => state.questions.unanswered,
+  );
+  const questionsLoading = useSelector(
+    (state: RootState) => state.questions.loading,
+  );
 
   React.useEffect(() => {
     const doGetUnansweredQuestions = async () => {
+      dispatch(gettingUnansweredQuestions());
       const unansweredQuestions = await getUnansweredQuestions();
-      setQuestions(unansweredQuestions);
-      setQuestionsLoading(false);
+      dispatch(gotUnansweredQuestions(unansweredQuestions));
     };
     doGetUnansweredQuestions();
   }, []);
