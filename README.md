@@ -39,6 +39,58 @@ QuestHub encapsulates the essence of modern web development, mirrored in the str
 14. **Azure Deployment:** Configuring and deploying the application to the cloud for accessibility and scalability.
 15. **Automation with CI/CD:** Implementing continuous integration and continuous delivery for efficient development workflows.
 
+# Running QuestHub Locally
+
+QuestHub is built with ASP.NET 6 for the backend and React 18 for the frontend. Follow these steps to get the project running on your local machine.
+
+## Prerequisites
+
+Before you begin, make sure you have the following installed:
+- .NET 6 SDK
+- Node.js (Preferably the latest LTS version)
+- An IDE or editor of your choice (e.g., Visual Studio for ASP.NET, Visual Studio Code for React)
+
+## Running the ASP.NET 6 Backend
+
+1. **Open the Backend Solution:**
+   - In Visual Studio, navigate to the folder containing the ASP.NET project and double-click on the `.sln` file.
+
+2. **Restore Dependencies:**
+   - Right-click on the solution in Solution Explorer and select "Restore NuGet Packages" to ensure all dependencies are up to date.
+
+3. **Set the Startup Project:**
+   - Right-click on the backend project and select "Set as StartUp Project."
+
+4. **Run the Project:**
+   - Click on the "IIS Express" button or press `F5` to start the project. Your default browser will open to the API's base URL.
+
+## Running the React 18 Frontend
+
+1. **Open the Frontend Project:**
+   - Open the project folder in Visual Studio Code or your preferred editor.
+
+2. **Install Dependencies:**
+   - Open a terminal and run the following command:
+     ```
+     npm install
+     ```
+
+3. **Start the React App:**
+   - Once dependencies are installed, start the app with:
+     ```
+     npm start
+     ```
+   - The app will open in your browser at [http://localhost:3000](http://localhost:3000).
+
+## Running Both Projects Together
+
+For full functionality, both the backend and frontend should be running simultaneously. Start the backend first to ensure it's ready to handle requests from the frontend.
+
+## Additional Configuration
+
+Check your project's specific configurations, such as environment variables and database connections, to ensure smooth communication between the frontend and backend.
+
+
 ## Acknowledgments
 
 This project stands on the shoulders of the vast knowledge shared by Carl Rippon in "ASP.NET Core 5 and React - Second Edition." It's a tribute to the power of learning and applying new technologies, fueled by the invaluable resources provided by the developer community and Packt Publishing. A heartfelt thank you to all contributors and educators who make such journeys possible.
