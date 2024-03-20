@@ -1,7 +1,7 @@
 import React from 'react';
 import { Page } from '../components/page/Page';
 import { StatusText } from '../Styles';
-import { useAuth } from '../Auth';
+import { useAuth } from '../features/auth/Auth';
 
 type SignoutAction = 'signout' | 'signout-callback';
 

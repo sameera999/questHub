@@ -1,4 +1,4 @@
-import { http } from '../../http';
+import { http } from '../../utils/http';
 
 export interface QuestionData {
   questionId: number;
