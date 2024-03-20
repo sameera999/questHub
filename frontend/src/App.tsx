@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
 import './App.css';
-import { Header } from './Header';
+import { Header } from './components/header/Header';
 import { HomePage } from './pages/HomePage';
 import { css } from '@emotion/react';
 import { fontFamily, fontSize, gray2 } from './Styles';
@@ -11,7 +11,7 @@ import { SignInPage } from './pages/SignInPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { QuestionPage } from './pages/QuestionPage';
 import { SignOutPage } from './pages/SignOutPage';
-const AskPage = React.lazy(() => import('./AskPage'));
+const AskPage = React.lazy(() => import('./pages/AskPage'));
 
 function App() {
   const unused = 'something';

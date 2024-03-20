@@ -1,5 +1,5 @@
 import React from 'react';
-import { Page } from './components/page/Page';
+import { Page } from '../components/page/Page';
 import { useForm } from 'react-hook-form';
 import {
   FieldContainer,
@@ -11,8 +11,8 @@ import {
   FormButtonContainer,
   PrimaryButton,
   SubmissionSuccess,
-} from './Styles';
-import { postQuestion } from './features/questions/QuestionsData';
+} from '../Styles';
+import { postQuestion } from '../features/questions/QuestionsData';
 
 type FormData = {
   title: string;

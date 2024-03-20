@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { fontFamily, fontSize, gray1, gray2, gray5 } from './Styles';
+import { fontFamily, fontSize, gray1, gray2, gray5 } from '../../Styles';
 import React from 'react';
-import { UserIcon } from './Icons';
+import { UserIcon } from '../../Icons';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
