@@ -27,7 +27,7 @@ builder.Services.AddAuthentication(options =>
     options.Audience = builder.Configuration["Auth0:Audience"];
 });
 builder.Services.AddHttpClient();
-builder.Services.AddAuthorization(options =>
+builder.Services.AddAuthorization(options =>//only question author can edit the question
     options.AddPolicy("MustBeQuestionAuthor", policy
      =>
       policy.Requirements
@@ -50,10 +50,9 @@ var upgrader = DeployChanges.To
         upgrader.PerformUpgrade();
     }
 
-//add data reporsiorie as dependency injections
-builder.Services.AddScoped<IDataRepository, DataRepository>();
+builder.Services.AddScoped<IDataRepository, DataRepository>();//add data reporsiorie as dependency injections
 builder.Services.AddScoped<IAuthorizationHandler, MustBeQuestionAuthorHandler>();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpContextAccessor();//get access to Http request information
 //The CORS policy that allows origins allowed in appsseeting.json to 
 // acess the REST API
 builder.Services.AddCors(options =>
