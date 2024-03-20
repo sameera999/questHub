@@ -1,19 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React from 'react';
-import { QuestionList } from './QuestionList';
-import { getUnansweredQuestions, QuestionData } from './QuestionsData';
-import { Page } from './Page';
-import { PageTitle } from './PageTitle';
-import { PrimaryButton } from './Styles';
+import { QuestionList } from '../features/questions/QuestionList';
+import {
+  getUnansweredQuestions,
+  QuestionData,
+} from '../features/questions/QuestionsData';
+import { Page } from '../components/page/Page';
+import { PageTitle } from '../components/page/PageTitle';
+import { PrimaryButton } from '../Styles';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { RootState } from './store';
+import { RootState } from '../store';
 import { useSelector } from 'react-redux';
 import {
   gettingUnansweredQuestions,
   gotUnansweredQuestions,
-} from './slices/questionsSlice';
+} from '../slices/questionsSlice';
 
 export const HomePage = () => {
   const navigate = useNavigate();

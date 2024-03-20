@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { QuestionData } from '../QuestionsData';
+import { QuestionData } from '../features/questions/QuestionsData';
 
 interface QuestionsState {
   loading: boolean;

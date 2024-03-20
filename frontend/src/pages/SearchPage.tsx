@@ -1,14 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useSearchParams } from 'react-router-dom';
-import { QuestionList } from './QuestionList';
-import { searchQuestions, QuestionData } from './QuestionsData';
+import { QuestionList } from '../features/questions/QuestionList';
+import {
+  searchQuestions,
+  QuestionData,
+} from '../features/questions/QuestionsData';
 import React from 'react';
-import { Page } from './Page';
+import { Page } from '../components/page/Page';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { RootState } from './store';
-import { searchedQuestions, searchingQuestions } from './slices/questionsSlice';
+import { RootState } from '../store';
+import {
+  searchedQuestions,
+  searchingQuestions,
+} from '../slices/questionsSlice';
 
 export const SearchPage = () => {
   const dispatch = useDispatch();

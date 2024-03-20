@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React from 'react';
-import { AnswerData } from './QuestionsData';
+import { AnswerData } from '../questions/QuestionsData';
 import { Answer } from './Answer';
-import { gray5 } from './Styles';
+import { gray5 } from '../../Styles';
 
 interface Props {
   data: AnswerData[];

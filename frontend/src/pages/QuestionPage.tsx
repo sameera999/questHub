@@ -11,17 +11,21 @@ import {
   SubmissionSuccess,
   gray3,
   gray6,
-} from './Styles';
+} from '../Styles';
 import React from 'react';
-import { Page } from './Page';
+import { Page } from '../components/page/Page';
 import { useParams } from 'react-router-dom';
-import { QuestionData, getQuestion, postAnswer } from './QuestionsData';
-import { AnswerList } from './AnswerList';
+import {
+  QuestionData,
+  getQuestion,
+  postAnswer,
+} from '../features/questions/QuestionsData';
+import { AnswerList } from '../features/answers/AnswerList';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { RootState } from './store';
-import { gettingQuestion, gotQuestion } from './slices/questionsSlice';
+import { RootState } from '../store';
+import { gettingQuestion, gotQuestion } from '../slices/questionsSlice';
 
 type FormData = {
   content: string;

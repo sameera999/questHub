@@ -1,5 +1,5 @@
 import React from 'react';
-import { Page } from './Page';
+import { Page } from '../components/page/Page';
 
 type SigninAction = 'signin' | 'signin-callback';
 

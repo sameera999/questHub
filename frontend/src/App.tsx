@@ -2,15 +2,15 @@
 import React from 'react';
 import './App.css';
 import { Header } from './Header';
-import { HomePage } from './HomePage';
+import { HomePage } from './pages/HomePage';
 import { css } from '@emotion/react';
 import { fontFamily, fontSize, gray2 } from './Styles';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { SearchPage } from './SearchPage';
-import { SignInPage } from './SignInPage';
-import { NotFoundPage } from './NotFoundPage';
-import { QuestionPage } from './QuestionPage';
-import { SignOutPage } from './SignOutPage';
+import { SearchPage } from './pages/SearchPage';
+import { SignInPage } from './pages/SignInPage';
+import { NotFoundPage } from './pages/NotFoundPage';
+import { QuestionPage } from './pages/QuestionPage';
+import { SignOutPage } from './pages/SignOutPage';
 const AskPage = React.lazy(() => import('./AskPage'));
 
 function App() {
