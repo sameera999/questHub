@@ -10,7 +10,7 @@ import React from 'react';
 import { Page } from '../components/page/Page';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { RootState } from '../store/store';
 import {
   searchedQuestions,
   searchingQuestions,

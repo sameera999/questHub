@@ -24,7 +24,7 @@ import { AnswerList } from '../features/answers/AnswerList';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { RootState } from '../store/store';
 import { gettingQuestion, gotQuestion } from '../slices/questionsSlice';
 
 type FormData = {

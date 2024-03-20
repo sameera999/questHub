@@ -11,7 +11,7 @@ import { PageTitle } from '../components/page/PageTitle';
 import { PrimaryButton } from '../Styles';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { RootState } from '../store';
+import { RootState } from '../store/store';
 import { useSelector } from 'react-redux';
 import {
   gettingUnansweredQuestions,
