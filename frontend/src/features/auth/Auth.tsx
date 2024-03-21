@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { createAuth0Client, Auth0Client } from '@auth0/auth0-spa-js';
 import { authSettings } from '../../AppSettings';
 
