@@ -14,4 +14,10 @@ export const SignInPage = ({ action }: Props) => {
   if (action === 'signin') {
     signIn();
   }
+
+  return (
+    <Page title="Sign In">
+      <StatusText>Signing in ...</StatusText>
+    </Page>
+  );
 };
