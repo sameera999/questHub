@@ -11,14 +11,18 @@ import { SignInPage } from './pages/SignInPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { QuestionPage } from './pages/QuestionPage';
 import { SignOutPage } from './pages/SignOutPage';
-import { AuthProvider } from './features/auth/Auth';
+import { Auth0Provider } from '@auth0/auth0-react';
 const AskPage = React.lazy(() => import('./pages/AskPage'));
 
 function App() {
-  const unused = 'something';
-
   return (
-    <AuthProvider>
+    <Auth0Provider
+      domain="dev-qqff7iofsebhfvpq.us.auth0.com"
+      clientId="68X0UCzHdTyXSskKjTN1CX9tkR7gMcNA"
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+    >
       <BrowserRouter>
         <div
           css={css`
@@ -65,7 +69,7 @@ function App() {
           </Routes>
         </div>
       </BrowserRouter>
-    </AuthProvider>
+    </Auth0Provider>
   );
 }
 

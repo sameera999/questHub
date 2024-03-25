@@ -1,10 +1,14 @@
-import React from 'react';
-import { createAuth0Client, Auth0Client } from '@auth0/auth0-spa-js';
+import React, { ReactNode } from 'react';
+import {
+  createAuth0Client,
+  Auth0Client,
+  LogoutOptions,
+} from '@auth0/auth0-spa-js';
 import { authSettings } from '../../AppSettings';
 
 interface Auth0User {
-  name: string;
-  email: string;
+  name?: string;
+  email?: string;
 }
 interface IAuth0Context {
   isAuthenticated: boolean;
@@ -42,7 +46,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   React.useEffect(() => {
     const initAuth0 = async () => {
       setLoading(true);
-      const auth0FromHook = await createAuth0Client(authSettings);
+      const auth0FromHook = await createAuth0Client({
+        domain: 'dev-qqff7iofsebhfvpq.us.auth0.com',
+        clientId: '68X0UCzHdTyXSskKjTN1CX9tkR7gMcNA',
+      });
       setAuth0Client(auth0FromHook);
       if (
         window.location.pathname === '/signin-callback' &&
@@ -70,9 +77,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         signIn: () => getAuth0ClientFromState().loginWithRedirect(),
         signOut: () =>
           getAuth0ClientFromState().logout({
-            client_id: authSettings.client_id,
+            clientId: authSettings.clientId,
             returnTo: window.location.origin + '/signout-callback',
-          }),
+          } as LogoutOptions),
         loading,
       }}
     >
