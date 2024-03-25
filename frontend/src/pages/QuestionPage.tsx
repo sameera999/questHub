@@ -26,6 +26,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { gettingQuestion, gotQuestion } from '../slices/questionsSlice';
+import { useAuth0 } from '@auth0/auth0-react';
 
 type FormData = {
   content: string;
@@ -44,6 +45,7 @@ export const QuestionPage = () => {
     mode: 'onBlur',
   });
   const { questionId } = useParams();
+  const { isAuthenticated } = useAuth0();
 
   React.useEffect(() => {
     dispatch(gettingQuestion());
@@ -109,43 +111,45 @@ export const QuestionPage = () => {
   ${question.created.toLocaleTimeString()}`}
             </div>
             <AnswerList data={question.answers} />
-            <form
-              css={css`
-                margin-top: 20px;
-              `}
-              onSubmit={handleSubmit(submitForm)}
-            >
-              <Fieldset disabled={isSubmitting || successfullySubmitted}>
-                <FieldContainer>
-                  <FieldLabel htmlFor="content">Your Answer</FieldLabel>
-                  <FieldTextArea
-                    id="content"
-                    {...register('content', {
-                      required: true,
-                      minLength: 50,
-                    })}
-                  />
-                  {errors.content && errors.content.type === 'required' && (
-                    <FieldError>You must enter the answer</FieldError>
+            {isAuthenticated && (
+              <form
+                css={css`
+                  margin-top: 20px;
+                `}
+                onSubmit={handleSubmit(submitForm)}
+              >
+                <Fieldset disabled={isSubmitting || successfullySubmitted}>
+                  <FieldContainer>
+                    <FieldLabel htmlFor="content">Your Answer</FieldLabel>
+                    <FieldTextArea
+                      id="content"
+                      {...register('content', {
+                        required: true,
+                        minLength: 50,
+                      })}
+                    />
+                    {errors.content && errors.content.type === 'required' && (
+                      <FieldError>You must enter the answer</FieldError>
+                    )}
+                    {errors.content && errors.content.type === 'minLength' && (
+                      <FieldError>
+                        The answer must be at least 50 characters
+                      </FieldError>
+                    )}
+                  </FieldContainer>
+                  <FormButtonContainer>
+                    <PrimaryButton type="submit">
+                      Submit Your Answer
+                    </PrimaryButton>
+                  </FormButtonContainer>
+                  {successfullySubmitted && (
+                    <SubmissionSuccess>
+                      Your answer was successfully submitted
+                    </SubmissionSuccess>
                   )}
-                  {errors.content && errors.content.type === 'minLength' && (
-                    <FieldError>
-                      The answer must be at least 50 characters
-                    </FieldError>
-                  )}
-                </FieldContainer>
-                <FormButtonContainer>
-                  <PrimaryButton type="submit">
-                    Submit Your Answer
-                  </PrimaryButton>
-                </FormButtonContainer>
-                {successfullySubmitted && (
-                  <SubmissionSuccess>
-                    Your answer was successfully submitted
-                  </SubmissionSuccess>
-                )}
-              </Fieldset>
-            </form>
+                </Fieldset>
+              </form>
+            )}
           </React.Fragment>
         )}
       </div>
