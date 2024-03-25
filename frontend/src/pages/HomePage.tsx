@@ -17,6 +17,7 @@ import {
   gettingUnansweredQuestions,
   gotUnansweredQuestions,
 } from '../slices/questionsSlice';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ export const HomePage = () => {
   const questionsLoading = useSelector(
     (state: RootState) => state.questions.loading,
   );
+  const { isAuthenticated } = useAuth0();
 
   React.useEffect(() => {
     const doGetUnansweredQuestions = async () => {
@@ -51,9 +53,11 @@ export const HomePage = () => {
         `}
       >
         <PageTitle>Unanswered Questions</PageTitle>
-        <PrimaryButton onClick={handleAskQuestionClick}>
-          Ask a question
-        </PrimaryButton>
+        {isAuthenticated && (
+          <PrimaryButton onClick={handleAskQuestionClick}>
+            Ask a question
+          </PrimaryButton>
+        )}
       </div>
       {questionsLoading ? (
         <div>Loading...</div>
