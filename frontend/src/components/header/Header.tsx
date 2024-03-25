@@ -5,6 +5,7 @@ import React from 'react';
 import { UserIcon } from '../../Icons';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useAuth0 } from '@auth0/auth0-react';
 
 type FormData = {
   search: string;
@@ -15,6 +16,22 @@ export const Header = () => {
   const [searchParams] = useSearchParams();
   const criteria = searchParams.get('criteria') || '';
   const { register, handleSubmit } = useForm<FormData>();
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  const buttonStyle = css`
+    font-family: ${fontFamily};
+    font-size: ${fontSize};
+    padding: 5px 10px;
+    background-color: transparent;
+    color: ${gray2};
+    text-decoration: none;
+    cursor: pointer;
+    :focus {
+      outline-color: ${gray5};
+    }
+    span {
+      margin-left: 7px;
+    }
+  `;
 
   const submitForm = ({ search }: FormData) => {
     navigate(`search?criteria=${search}`);
@@ -45,12 +62,12 @@ export const Header = () => {
           text-decoration: none;
         `}
       >
-        QuestHub
+        Q & A
       </Link>
-
       <form onSubmit={handleSubmit(submitForm)}>
         <input
-          {...register('search')}
+          // ref={register}
+          name="search"
           type="text"
           placeholder="Search..."
           defaultValue={criteria}
@@ -71,28 +88,24 @@ export const Header = () => {
           `}
         />
       </form>
+      <div>
+        {!isLoading &&
+          (isAuthenticated ? (
+            <div>
+              <span>{user!.name}</span>
 
-      <Link
-        to="signin"
-        css={css`
-          font-family: ${fontFamily};
-          font-size: ${fontSize};
-          padding: 5px 10px;
-          background-color: transparent;
-          color: ${gray2};
-          text-decoration: none;
-          cursor: pointer;
-          :focus {
-            outline-color: ${gray5};
-          }
-          span {
-            margin-left: 7px;
-          }
-        `}
-      >
-        <UserIcon />
-        <span>Sign In</span>
-      </Link>
+              <Link to="signout" css={buttonStyle}>
+                <UserIcon />
+                <span>Sign Out</span>
+              </Link>
+            </div>
+          ) : (
+            <Link to="signin" css={buttonStyle}>
+              <UserIcon />
+              <span>Sign In</span>
+            </Link>
+          ))}
+      </div>
     </div>
   );
 };
