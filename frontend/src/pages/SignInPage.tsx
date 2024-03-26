@@ -11,9 +11,9 @@ interface Props {
 }
 
 export const SignInPage = ({ action }: Props) => {
-  const { loginWithRedirect } = useAuth0();
+  const { signIn } = useAuth();
   if (action === 'signin') {
-    loginWithRedirect();
+    signIn();
   }
 
   return (

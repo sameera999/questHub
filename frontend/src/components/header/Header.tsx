@@ -6,6 +6,7 @@ import { UserIcon } from '../../Icons';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth } from '../../features/auth/Auth';
 
 type FormData = {
   search: string;
@@ -16,7 +17,7 @@ export const Header = () => {
   const [searchParams] = useSearchParams();
   const criteria = searchParams.get('criteria') || '';
   const { register, handleSubmit } = useForm<FormData>();
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const { user, isAuthenticated, loading } = useAuth();
   const buttonStyle = css`
     font-family: ${fontFamily};
     font-size: ${fontSize};
@@ -89,7 +90,7 @@ export const Header = () => {
         />
       </form>
       <div>
-        {!isLoading &&
+        {!loading &&
           (isAuthenticated ? (
             <div>
               <span>{user!.name}</span>

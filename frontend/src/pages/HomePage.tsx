@@ -18,6 +18,7 @@ import {
   gotUnansweredQuestions,
 } from '../slices/questionsSlice';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth } from '../features/auth/Auth';
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export const HomePage = () => {
   const questionsLoading = useSelector(
     (state: RootState) => state.questions.loading,
   );
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuth();
 
   React.useEffect(() => {
     const doGetUnansweredQuestions = async () => {

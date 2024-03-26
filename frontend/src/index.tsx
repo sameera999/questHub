@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import store from './store/store';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { authSettings } from './AppSettings';
+import { AuthProvider } from './features/auth/Auth';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -14,9 +15,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Auth0Provider {...authSettings}>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <AuthProvider>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </AuthProvider>
     </Auth0Provider>
   </React.StrictMode>,
 );

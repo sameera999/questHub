@@ -13,11 +13,11 @@ interface Props {
 export const SignOutPage = ({ action }: Props) => {
   let message = 'Signing out ...';
 
-  const { logout } = useAuth0();
+  const { signOut } = useAuth();
 
   switch (action) {
     case 'signout':
-      logout({ logoutParams: { returnTo: window.location.origin } });
+      signOut();
       break;
     case 'signout-callback':
       message = 'You successfully signed out!';

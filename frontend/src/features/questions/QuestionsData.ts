@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { http } from '../../utils/http';
 
 export interface QuestionData {
@@ -130,15 +131,18 @@ export interface PostQuestionData {
 export const postQuestion = async (
   question: PostQuestionData,
 ): Promise<QuestionData | undefined> => {
-  await wait(500);
-  const questionId = Math.max(...questions.map((q) => q.questionId)) + 1;
-  const newQuestion: QuestionData = {
-    ...question,
-    questionId,
-    answers: [],
-  };
-  questions.push(newQuestion);
-  return newQuestion;
+  const result = await http<QuestionDataFromServer, PostQuestionData>({
+    path: '/questions',
+    method: 'post',
+    body: question,
+    accessToken: '',
+  });
+
+  if (result.ok && result.body) {
+    return mapQuestionFromServer(result.body);
+  } else {
+    return undefined;
+  }
 };
 
 export interface PostAnswerData {

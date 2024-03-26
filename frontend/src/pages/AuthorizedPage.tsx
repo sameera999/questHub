@@ -1,13 +1,14 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import React, { ReactNode } from 'react';
 import { Page } from '../components/page/Page';
+import { useAuth } from '../features/auth/Auth';
 
 interface Props {
   children: ReactNode;
 }
 
 export const AuthorizedPage: React.FC<Props> = ({ children }) => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuth();
   if (isAuthenticated) {
     return <>{children}</>;
   } else {

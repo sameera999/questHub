@@ -27,6 +27,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { gettingQuestion, gotQuestion } from '../slices/questionsSlice';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth } from '../features/auth/Auth';
 
 type FormData = {
   content: string;
@@ -45,7 +46,7 @@ export const QuestionPage = () => {
     mode: 'onBlur',
   });
   const { questionId } = useParams();
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuth();
 
   React.useEffect(() => {
     dispatch(gettingQuestion());
