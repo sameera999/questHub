@@ -8,6 +8,6 @@ export const authSettings = {
   authorizationParams: {
     redirect_uri: window.location.origin,
     audience: 'https://questhub',
-    scope: 'read:current_user update:current_user_metadata',
+    scope: 'openid profile QandAAPI email',
   },
 };

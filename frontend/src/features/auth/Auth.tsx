@@ -7,10 +7,11 @@ import { createAuth0Client } from '@auth0/auth0-spa-js';
 interface AuthUser {
   name?: string;
   email?: string;
+  picture?: string;
 }
 interface IAuthContext {
   isAuthenticated: boolean;
-  user?: any;
+  user?: AuthUser;
   signIn: () => void;
   signOut: () => void;
   loading: boolean;
