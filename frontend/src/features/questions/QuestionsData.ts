@@ -18,42 +18,6 @@ export interface AnswerData {
   created: Date;
 }
 
-const questions: QuestionData[] = [
-  {
-    questionId: 1,
-    title: 'Why should I learn TypeScript?',
-    content:
-      'TypeScript seems to be getting popular so I  wondered whether it is worth my time learning it? What benefits does it give over JavaScript?',
-    userName: 'Bob',
-    created: new Date(),
-    answers: [
-      {
-        answerId: 1,
-        content: 'To catch problems earlier speeding  up your developments',
-        userName: 'Jane',
-        created: new Date(),
-      },
-      {
-        answerId: 2,
-        content:
-          'So, that you can use the JavaScript  features of tomorrow, today',
-
-        userName: 'Fred',
-        created: new Date(),
-      },
-    ],
-  },
-  {
-    questionId: 2,
-    title: 'Which state management tool should  I use?',
-    content:
-      'There seem to be a fair few state management tools around for React - React, Unstated, ... Which one should I use?',
-    userName: 'Bob',
-    created: new Date(),
-    answers: [],
-  },
-];
-
 export interface QuestionDataFromServer {
   questionId: number;
   title: string;
@@ -156,14 +120,16 @@ export interface PostAnswerData {
 export const postAnswer = async (
   answer: PostAnswerData,
 ): Promise<AnswerData | undefined> => {
-  await wait(500);
-  const question = questions.filter(
-    (q) => q.questionId === answer.questionId,
-  )[0];
-  const answerInQuestion: AnswerData = {
-    answerId: 99,
-    ...answer,
-  };
-  question.answers.push(answerInQuestion);
-  return answerInQuestion;
+  const accessToken = await getAccessToken();
+  const result = await http<AnswerData, PostAnswerData>({
+    path: '/questions/answer',
+    method: 'post',
+    body: answer,
+    accessToken,
+  });
+  if (result.ok) {
+    return result.body;
+  } else {
+    return undefined;
+  }
 };

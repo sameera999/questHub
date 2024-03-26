@@ -10,18 +10,17 @@ interface AuthUser {
 }
 interface IAuthContext {
   isAuthenticated: boolean;
-  user?: AuthUser;
+  user?: any;
   signIn: () => void;
   signOut: () => void;
   loading: boolean;
-  getAccessToken: () => Promise<string>;
 }
 export const AuthContext = React.createContext<IAuthContext>({
   isAuthenticated: false,
+  user: {},
   signIn: () => {},
   signOut: () => {},
   loading: true,
-  getAccessToken: () => Promise.resolve(''),
 });
 
 export const useAuth = () => React.useContext(AuthContext);
@@ -46,7 +45,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     signIn,
     signOut,
     loading: isLoading,
-    getAccessToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
