@@ -31,30 +31,14 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const {
-    isAuthenticated,
-    user,
-    loginWithRedirect,
-    logout,
-    isLoading,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { isAuthenticated, user, loginWithRedirect, logout, isLoading } =
+    useAuth0();
 
   // Wrap Auth0 methods or provide additional logic as needed
   const signIn = () => loginWithRedirect();
   const signOut = () =>
     logout({ logoutParams: { returnTo: window.location.origin } });
   // Implement getAccessToken method
-  const getAccessToken = async () => {
-    try {
-      const accessToken = await getAccessTokenSilently();
-      return accessToken;
-    } catch (error) {
-      console.error('Error getting access token:', error);
-      // Handle the error appropriately in your application context
-      return ''; // Return an empty string or throw an error, depending on your error handling strategy
-    }
-  };
 
   const value = {
     isAuthenticated,
