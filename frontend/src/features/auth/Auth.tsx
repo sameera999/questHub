@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { authSettings } from '../../AppSettings';
 import { useAuth0 } from '@auth0/auth0-react';
+import { createAuth0Client } from '@auth0/auth0-spa-js';
 
 interface AuthUser {
   name?: string;
@@ -65,4 +66,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+export const getAccessToken = async () => {
+  const auth0FromHook = await createAuth0Client({
+    domain: authSettings.domain,
+    clientId: authSettings.clientId,
+  });
+  const accessToken = await auth0FromHook?.getTokenSilently();
+  return accessToken;
 };

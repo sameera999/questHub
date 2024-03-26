@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { http } from '../../utils/http';
+import { getAccessToken } from '../auth/Auth';
 
 export interface QuestionData {
   questionId: number;
@@ -131,11 +132,12 @@ export interface PostQuestionData {
 export const postQuestion = async (
   question: PostQuestionData,
 ): Promise<QuestionData | undefined> => {
+  const accessToken = await getAccessToken();
   const result = await http<QuestionDataFromServer, PostQuestionData>({
     path: '/questions',
     method: 'post',
     body: question,
-    accessToken: '',
+    accessToken,
   });
 
   if (result.ok && result.body) {
