@@ -34,10 +34,10 @@ type FormData = {
 };
 
 export const QuestionPage = () => {
-  const dispatch = useDispatch();
-  const question = useSelector((state: RootState) => state.questions.viewing);
   const [successfullySubmitted, setSuccessfullySubmitted] =
     React.useState(false);
+
+  const [question, setQuestion] = React.useState<QuestionData | null>(null);
   const {
     register,
     handleSubmit,
@@ -49,15 +49,19 @@ export const QuestionPage = () => {
   const { isAuthenticated } = useAuth();
 
   React.useEffect(() => {
-    dispatch(gettingQuestion());
+    let cancelled = false;
     const doGetQuestion = async (questionId: number) => {
-      dispatch(gettingQuestion());
       const foundQuestion = await getQuestion(questionId);
-      dispatch(gotQuestion(foundQuestion));
+      if (!cancelled) {
+        setQuestion(foundQuestion);
+      }
     };
     if (questionId) {
       doGetQuestion(Number(questionId));
     }
+    return () => {
+      cancelled = true;
+    };
   }, [questionId]);
 
   const submitForm = async (data: FormData) => {

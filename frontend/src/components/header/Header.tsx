@@ -5,7 +5,6 @@ import React from 'react';
 import { UserIcon } from '../../Icons';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useAuth } from '../../features/auth/Auth';
 
 type FormData = {
@@ -67,7 +66,7 @@ export const Header = () => {
       </Link>
       <form onSubmit={handleSubmit(submitForm)}>
         <input
-          // ref={register}
+          {...register('search')}
           name="search"
           type="text"
           placeholder="Search..."

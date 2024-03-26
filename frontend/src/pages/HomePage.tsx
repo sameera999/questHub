@@ -10,35 +10,29 @@ import { Page } from '../components/page/Page';
 import { PageTitle } from '../components/page/PageTitle';
 import { PrimaryButton } from '../Styles';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { RootState } from '../store/store';
-import { useSelector } from 'react-redux';
-import {
-  gettingUnansweredQuestions,
-  gotUnansweredQuestions,
-} from '../slices/questionsSlice';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useAuth } from '../features/auth/Auth';
 
 export const HomePage = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const questions = useSelector(
-    (state: RootState) => state.questions.unanswered,
-  );
-  const questionsLoading = useSelector(
-    (state: RootState) => state.questions.loading,
-  );
+  const [questions, setQuestions] = React.useState<QuestionData[]>([]);
+  const [questionsLoading, setQuestionsLoading] = React.useState(true);
   const { isAuthenticated } = useAuth();
 
   React.useEffect(() => {
+    let cancelled = false;
     const doGetUnansweredQuestions = async () => {
-      dispatch(gettingUnansweredQuestions());
       const unansweredQuestions = await getUnansweredQuestions();
-      dispatch(gotUnansweredQuestions(unansweredQuestions));
+      if (!cancelled) {
+        setQuestions(unansweredQuestions);
+        setQuestionsLoading(false);
+      }
     };
     doGetUnansweredQuestions();
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
   console.log('rendered');
   const handleAskQuestionClick = () => {
     navigate('ask');

@@ -18,18 +18,23 @@ import {
 
 export const SearchPage = () => {
   const dispatch = useDispatch();
-  const questions = useSelector((state: RootState) => state.questions.searched);
+  const [questions, setQuestions] = React.useState<QuestionData[]>([]);
   const [searchParams] = useSearchParams();
 
   const search = searchParams.get('criteria') || '';
 
   React.useEffect(() => {
+    let cancelled = false;
     const doSearch = async (criteria: string) => {
-      dispatch(searchingQuestions());
       const foundResults = await searchQuestions(criteria);
-      dispatch(searchedQuestions(foundResults));
+      if (!cancelled) {
+        setQuestions(foundResults);
+      }
     };
     doSearch(search);
+    return () => {
+      cancelled = true;
+    };
   }, [search]);
 
   return (
