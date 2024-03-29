@@ -8,7 +8,7 @@ QuestHub is not just a codebase; it's a reflection of a journey through full-sta
 
 ## Key Features and Technologies
 
-- **ASP.NET 6 and React 18:** Utilizing the latest versions for backend and frontend development, ensuring a modern, efficient, and scalable application.
+- **ASP.NET 8 and React 18:** Utilizing the latest versions for backend and frontend development, ensuring a modern, efficient, and scalable application.
 - **TypeScript:** Enhancing development with strong typing, enabling more robust and maintainable code.
 - **Emotion for Styling:** Adopting CSS-in-JS for styling components, offering a flexible and powerful way to style React components.
 - **React Router:** Managing SPA navigation and routes efficiently, improving the user experience with seamless page transitions.
