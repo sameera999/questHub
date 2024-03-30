@@ -6,12 +6,11 @@ using QuestHub.Data;
 using QuestHub.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 using static Dapper.SqlMapper;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace QuestHub.Tests
 {
@@ -124,11 +123,46 @@ namespace QuestHub.Tests
 
             var result = await questionsController.GetQuestion(1);
 
-            // This will check the result inside the ActionResult to see if it's a NotFoundResult.
-            Assert.IsType<ActionResult<QuestionGetSingleResponse>>(result);
-            var actionResult = result.Result as NotFoundResult;
-            Assert.NotNull(actionResult);
-            Assert.Equal(404, actionResult.StatusCode);
+            var actionResult = Assert.IsType<ActionResult<QuestionGetSingleResponse>>(result);
+            Assert.IsType<NotFoundResult>(actionResult.Result);
+        }
+
+        [Fact]
+        public async void GetQuestion_WhenQuestionIsFound_ReturnsQuestion()
+        {
+            var mockQuestion = new QuestionGetSingleResponse
+            {
+                QuestionId = 1,
+                Title = "test"
+            };
+            var mockDataRepository = new Mock<IDataRepository>();
+            mockDataRepository
+              .Setup(repo => repo.GetQuestion(1))
+              .Returns(() => Task.FromResult(mockQuestion));
+
+            var mockQuestionCache = new Mock<IQuestionCache>();
+
+            mockQuestionCache
+             .Setup(cache => cache.Get(1))
+             .Returns(() => mockQuestion);
+
+            var mockConfigurationRoot = new
+              Mock<IConfigurationRoot>();
+
+            mockConfigurationRoot.SetupGet(config =>
+              config[It.IsAny<string>()]).Returns("some setting");
+          
+            var questionsController = new QuestionsController(
+              mockDataRepository.Object,             
+              null,
+               mockQuestionCache.Object,
+              mockConfigurationRoot.Object
+            );
+
+            var result = await questionsController.GetQuestion(1);
+            var actionResult = Assert.IsType<ActionResult<QuestionGetSingleResponse>>(result);
+            var questionResult = Assert.IsType<QuestionGetSingleResponse>(actionResult.Value);
+            Assert.Equal(1, questionResult.QuestionId);
         }
     }
 }
