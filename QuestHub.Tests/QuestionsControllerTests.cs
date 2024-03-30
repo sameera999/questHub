@@ -6,7 +6,9 @@ using QuestHub.Data;
 using QuestHub.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 using static Dapper.SqlMapper;
@@ -122,8 +124,11 @@ namespace QuestHub.Tests
 
             var result = await questionsController.GetQuestion(1);
 
-            var actionResult = Assert.IsType<ActionResult<QuestionGetSingleResponse>>(result);
-            Assert.IsType<NotFoundResult>(actionResult);
+            // This will check the result inside the ActionResult to see if it's a NotFoundResult.
+            Assert.IsType<ActionResult<QuestionGetSingleResponse>>(result);
+            var actionResult = result.Result as NotFoundResult;
+            Assert.NotNull(actionResult);
+            Assert.Equal(404, actionResult.StatusCode);
         }
     }
 }
