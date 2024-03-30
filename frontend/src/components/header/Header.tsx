@@ -62,7 +62,7 @@ export const Header = () => {
           text-decoration: none;
         `}
       >
-        Q & A
+        QuestHub
       </Link>
       <form onSubmit={handleSubmit(submitForm)}>
         <input

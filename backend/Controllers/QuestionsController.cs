@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using QuestHub.Data;
@@ -18,15 +19,18 @@ namespace QuestHub.Controllers
     {
         private readonly IDataRepository _dataRepository;
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IQuestionCache _questionCache;
         private readonly IConfiguration configuration;
         private readonly string _auth0UserInfo;
 
         public QuestionsController(IDataRepository dataRepository, 
             IHttpClientFactory clientFactory,
+            IQuestionCache questionCache,
             IConfiguration configuration)
         {
             _dataRepository = dataRepository;
             _clientFactory = clientFactory;
+            _questionCache = questionCache;
             _auth0UserInfo = $"{configuration["Auth0:Authority"]}userinfo";
            
         }
