@@ -52,6 +52,7 @@ var upgrader = DeployChanges.To
 
 builder.Services.AddScoped<IDataRepository, DataRepository>();//add data reporsiorie as dependency injections
 builder.Services.AddScoped<IAuthorizationHandler, MustBeQuestionAuthorHandler>();
+builder.Services.AddSingleton<IQuestionCache, QuestionCache>();
 builder.Services.AddHttpContextAccessor();//get access to Http request information
 //The CORS policy that allows origins allowed in appsseeting.json to 
 // acess the REST API
