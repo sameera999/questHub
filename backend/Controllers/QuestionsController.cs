@@ -69,10 +69,16 @@ namespace QuestHub.Controllers
         [HttpGet("{questionId}")]
         public async Task<ActionResult<QuestionGetSingleResponse>> GetQuestion(int questionId)
         {
-            var question = await _dataRepository.GetQuestion(questionId);
+            var question = _questionCache.Get(questionId);
+           
             if (question == null)
             {
-                return NotFound();
+                question = await _dataRepository.GetQuestion(questionId);
+                if (question == null)
+                {
+                    return NotFound();
+                }
+                _questionCache.Set(question);
             }
 
             return question;
