@@ -2,6 +2,8 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { Page } from './Page';
 
+afterEach(cleanup);
+
 test('when the page compnent rendered , it shuld contain the correct title and content', () => {
   const { queryByText } = render(
     <Page title={'Title test'}>
@@ -14,5 +16,3 @@ test('when the page compnent rendered , it shuld contain the correct title and c
   const content = queryByText('Test content');
   expect(content).not.toBeNull();
 });
-
-afterEach(cleanup);
