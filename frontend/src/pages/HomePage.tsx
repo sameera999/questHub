@@ -2,15 +2,16 @@
 import { css } from '@emotion/react';
 import React from 'react';
 import { QuestionList } from '../features/questions/QuestionList';
-import {
-  getUnansweredQuestions,
-  QuestionData,
-} from '../features/questions/QuestionsData';
+
 import { Page } from '../components/page/Page';
 import { PageTitle } from '../components/page/PageTitle';
 import { PrimaryButton } from '../Styles';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/auth/Auth';
+import {
+  QuestionData,
+  getUnansweredQuestions,
+} from '../features/questions/QuestionsData';
 
 export const HomePage = () => {
   const navigate = useNavigate();
